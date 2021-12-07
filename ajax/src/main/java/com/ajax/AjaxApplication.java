@@ -8,6 +8,7 @@ public class AjaxApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AjaxApplication.class, args);
+
 	}
 
 }
