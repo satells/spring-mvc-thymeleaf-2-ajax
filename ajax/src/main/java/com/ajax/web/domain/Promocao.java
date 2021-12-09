@@ -9,7 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
@@ -23,9 +27,11 @@ public class Promocao implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotBlank(message = "Um título é requerido")
 	@Column(name = "titulo", nullable = false)
 	private String titulo;
 
+	@NotBlank(message = "O link da promoção é requerido.")
 	@Column(name = "link_promocao", nullable = false)
 	private String linkPromocao;
 
@@ -38,6 +44,7 @@ public class Promocao implements Serializable {
 	@Column(name = "link_imagem", nullable = false)
 	private String linkImagem;
 
+	@NotNull(message = "O preço é requerido.")
 	@NumberFormat(style = Style.CURRENCY, pattern = "#,##0.00")
 	@Column(name = "preco_promocao", nullable = false)
 	private BigDecimal preco;
@@ -47,6 +54,11 @@ public class Promocao implements Serializable {
 
 	@Column(name = "data_cadastro", nullable = false)
 	private LocalDateTime dtCadastro;
+
+	@NotNull(message = "Uma categoria é requerida")
+	@ManyToOne
+	@JoinColumn(name = "categoria_fk")
+	private Categoria categoria;
 
 	public Long getId() {
 		return id;
@@ -118,6 +130,21 @@ public class Promocao implements Serializable {
 
 	public void setDtCadastro(LocalDateTime dtCadastro) {
 		this.dtCadastro = dtCadastro;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
+	@Override
+	public String toString() {
+		return "Promocao [id=" + id + ", titulo=" + titulo + ", linkPromocao=" + linkPromocao + ", site=" + site + ", descricao=" + descricao
+				+ ", linkImagem=" + linkImagem + ", preco=" + preco + ", likes=" + likes + ", dtCadastro=" + dtCadastro + ", categoria=" + categoria
+				+ "]";
 	}
 
 }
