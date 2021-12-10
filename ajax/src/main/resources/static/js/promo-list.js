@@ -77,9 +77,9 @@ $(document).on("click", "button[id*='likes-btn-']",function(){
 	// ver eventos delegados - delegar ao jQuery os objetos adcionados posteriormente à criação do objeto DOM  
 	$.ajax({
 		method:"POST",
-		url:`/promocao/liks/${id}`,
+		url:'/promocao/like/'+id,
 		success:function(response){
-			$(`#likes-count-${id}`).text(response);
+			$('#likes-count-'+id).text(response);
 		},
 		error:function(xhr){
 			console.log(`Ocorreu, um erro: ${xhr.status} - ${xhr.statusText}`);

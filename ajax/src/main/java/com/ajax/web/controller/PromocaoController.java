@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,6 +56,9 @@ public class PromocaoController {
 
 	@PostMapping("/save")
 	public ResponseEntity<?> salvar(@Valid Promocao promocao, BindingResult result) {
+
+		promocao.setLikes(0);
+		;
 
 		if (result.hasErrors()) {
 			Map<String, String> erros = new HashMap<String, String>();
@@ -96,6 +100,16 @@ public class PromocaoController {
 		model.addAttribute("promocoes", promocaoRepository.findAll(pageRequest));
 
 		return "promo-card";
+	}
+
+	@PostMapping("/like/{id}")
+	public ResponseEntity<?> adicionarLikes(@PathVariable("id") Long id) {
+		System.out.println(id);
+
+		promocaoRepository.updateSomarLikes(id);
+		int likes = promocaoRepository.findLikesById(id);
+
+		return ResponseEntity.ok(likes);
 	}
 
 }

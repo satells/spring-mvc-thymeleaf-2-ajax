@@ -49,7 +49,7 @@ public class Promocao implements Serializable {
 	@Column(name = "preco_promocao", nullable = false)
 	private BigDecimal preco;
 
-	@Column(name = "total_likes")
+	@Column(name = "total_likes", columnDefinition = " default 0")
 	private Integer likes;
 
 	@Column(name = "data_cadastro", nullable = false)
