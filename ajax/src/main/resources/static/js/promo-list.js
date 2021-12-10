@@ -77,9 +77,9 @@ $(document).on("click", "button[id*='likes-btn-']",function(){
 	// ver eventos delegados - delegar ao jQuery os objetos adcionados posteriormente à criação do objeto DOM  
 	$.ajax({
 		method:"POST",
-		url:'/promocao/like/'+id,
+		url:`/promocao/like/${id}`,
 		success:function(response){
-			$('#likes-count-'+id).text(response);
+			$(`#likes-count-${id}`).text(response);
 		},
 		error:function(xhr){
 			console.log(`Ocorreu, um erro: ${xhr.status} - ${xhr.statusText}`);
@@ -88,6 +88,23 @@ $(document).on("click", "button[id*='likes-btn-']",function(){
 });
 
 
+
+$("#autocomplete-input").autocomplete({
+	source:function(request, response){
+		$.ajax({
+			method:"GET",
+			url:"/promocao/site",
+			data:{
+				termo:request.term,
+			},
+			success:function(result){
+				response(result);
+			}
+	
+			
+		});
+	}
+});
 
 
 //$("button[id*='likes-btn-']").on("click",function(){
@@ -107,6 +124,8 @@ $(document).on("click", "button[id*='likes-btn-']",function(){
 //		}
 //	});
 //});
+
+
 
 
 

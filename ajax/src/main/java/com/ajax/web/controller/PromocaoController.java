@@ -112,4 +112,12 @@ public class PromocaoController {
 		return ResponseEntity.ok(likes);
 	}
 
+	@GetMapping("/site")
+	public ResponseEntity<?> autocompleteByTermo(@RequestParam("termo") String termo) {
+
+		List<String> sites = promocaoRepository.findSitesByTermo(termo);
+
+		return ResponseEntity.ok(sites);
+
+	}
 }
