@@ -31,10 +31,7 @@ $("#form-add-promo").submit(function(e) {
 			}
 		},
 		beforeSend : function() {
-			
-			
 			$("span").closest('.error-span').remove();
-			
 			
 			$("#categoria").removeClass("is-invalid");
 			$("#preco").removeClass("is-invalid");
