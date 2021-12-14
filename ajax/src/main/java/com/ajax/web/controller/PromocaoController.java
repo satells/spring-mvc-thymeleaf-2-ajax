@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -134,6 +135,20 @@ public class PromocaoController {
 		List<String> sites = promocaoRepository.findSitesByTermo(termo);
 
 		return ResponseEntity.ok(sites);
+	}
+//=====================================Data Tables=====================================
+
+	@GetMapping("/tabela")
+	public String showTabela() {
+		return "promo-datatables";
+	}
+
+	@GetMapping("/datatables/server")
+	public ResponseEntity<?> dataTables(HttpServletRequest request) {
+		Map<String, Object> data = new PromocaoDataTablesService().execute(promocaoRepository, request);
+
+		return ResponseEntity.ok(data);
 
 	}
+
 }
