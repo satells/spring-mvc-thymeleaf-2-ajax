@@ -28,13 +28,13 @@ public class PromocaoDataTablesService {
 		int current = currentPage(start, length);
 
 		String column = columnName(request);
-
 		Sort.Direction direction = orderBy(request);
+		String search = searchBy(request);
 
 		Pageable pageable = PageRequest.of(current, length, direction, column);
 
 		Map<String, Object> json = new LinkedHashMap<String, Object>();
-		Page<Promocao> page = queryBy(repository, pageable);
+		Page<Promocao> page = queryBy(search, repository, pageable);
 
 		json.put("draw", draw);
 		json.put("recordsTotal", page.getTotalElements());
@@ -45,8 +45,21 @@ public class PromocaoDataTablesService {
 
 	}
 
-	private Page<Promocao> queryBy(PromocaoRepository repository, Pageable pageable) {
-		return repository.findAll(pageable);
+	private String searchBy(HttpServletRequest request) {
+		String parameter = request.getParameter("search[value]");
+		if (parameter.isEmpty()) {
+			return "";
+		}
+
+		return parameter;
+	}
+
+	private Page<Promocao> queryBy(String search, PromocaoRepository repository, Pageable pageable) {
+		if (search.isEmpty()) {
+			return repository.findAll(pageable);
+		}
+		return repository.findByTituloOrCategoria(search, pageable);
+
 	}
 
 	private Direction orderBy(HttpServletRequest request) {

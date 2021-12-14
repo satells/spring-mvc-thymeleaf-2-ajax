@@ -20,10 +20,6 @@ $(this).ready(function() {
 			{data:'likes'},
 			{data:'dtCadastro'},
 			{data:'categoria.titulo'},
-		
-		
 		], 
-
 	});
-
 });

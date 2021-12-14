@@ -28,4 +28,8 @@ public interface PromocaoRepository extends JpaRepository<Promocao, Long> {
 	@Query("select distinct p.site from Promocao p where p.site like %:site%")
 	List<String> findSitesByTermo(@Param("site") String site);
 
+	@Query("select p from Promocao p where p.titulo like %:search% or p.site like %:search% or p.categoria.titulo like %:search% ")
+	Page<Promocao> findByTituloOrCategoria(@Param("search") String search, Pageable pageable);
+
+
 }
