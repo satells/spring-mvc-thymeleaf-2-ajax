@@ -68,6 +68,14 @@
 		</dependency>
 
 
+		<!-- https://mvnrepository.com/artifact/org.directwebremoting/dwr -->
+		<dependency>
+			<groupId>org.directwebremoting</groupId>
+			<artifactId>dwr</artifactId>
+			<version>3.0.2-RELEASE</version>
+			<type>pom</type>
+		</dependency>
+
 	</dependencies>
 
 	<build>
