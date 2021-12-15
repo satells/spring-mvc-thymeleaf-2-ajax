@@ -80,6 +80,11 @@ $(this).ready(function() {
 			method:"GET",
 			url:`/promocao/edit/${id}`,
 			beforeSend:function(){
+				$("span").closest('.error-span').remove();
+				$(".is-invalid").removeClass("is-invalid");
+
+				
+				
 				$("#modal-form").modal('show'); 
 				console.log(`editar ${id}`);
 			},
@@ -104,11 +109,6 @@ $(this).ready(function() {
 	});
 	
 	
-	$("#btn-edit-modal").on('click', function(){
-		
-		
-	});
-	
 	
 	
 	$("#btn-excluir").on('click', function(){
@@ -116,7 +116,6 @@ $(this).ready(function() {
 		console.log(`excluir ${id}`);
 		
 	});
-	
 	
 	$("#btn-del-modal").on('click',function(){
 		$.ajax({
@@ -132,5 +131,65 @@ $(this).ready(function() {
 			},
 		});
 	});
+	
+	
+	$("#btn-edit-modal").on('click', function(){
+		
+		var promo = {};
+
+		
+		promo.descricao = $("#edt_descricao").val();
+		promo.preco = $("#edt_preco").val();
+		promo.titulo = $("#edt_titulo").val();
+		promo.categoria = $("#edt_categoria").val();
+		promo.linkImagem = $("#edt_linkImagem").val();
+		promo.id = $("#edt_id").val();
+
+		console.log(promo);
+
+		
+		$.ajax({
+			method:"POST",
+			url: "/promocao/edit",
+			data: promo,
+			success:function(){
+				$("#modal-form").modal("hide");
+				table.ajax.reload();
+			},
+			statusCode:{
+				422:function(xhr){
+					console.log("STATUS:", xhr.status);
+					var errors = $.parseJSON(xhr.responseText);
+					
+					$.each(errors, function(key, val){
+						$("#edt_"+ key ).addClass("is-invalid");
+						$("#error-" + key)
+							.addClass("invalid-feedback")
+							.append("<span class='error-span'>"+ val +"</span>");
+					});
+				}
+			},
+			beforeSend : function() {
+				$("span").closest('.error-span').remove();
+				$(".is-invalid").removeClass("is-invalid");
+				
+				
+			},
+			
+		});
+	});
+
+	
+	$("#edt_linkImagem").on('change', function(){
+		var link=$(this).val();
+		$("#edt_imagem").attr('src',link);
+	});
+	
+	
+	$(".close").on('click',function(){
+		
+		
+	});
+	
 	
 });
